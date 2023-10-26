@@ -29,8 +29,12 @@ pipeline {
        stage('Publish to Nexus') {
             steps {
                 script {
-              nexusArtifactUploader nexusInstanceId: env.NEXUS_CREDENTIALS_ID, nexusUrl: env.NEXUS_URL, repository: env.NEXUS_REPOSITORY, version: '1.0.SNAPSHOT', groupId: 'com.mycompany.app', artifactId: 'my-app', packaging: 'jar', file: 'target/my-artifact.jar'
+    def artifactPath = 'target/my-artifact.jar'
+                    def nexusUrl = env.NEXUS_URL
+                    def nexusRepo = env.NEXUS_REPOSITORY
 
+                    withCredentials([usernamePassword(credentialsId: 'NEXUS_CRED', usernameVariable: 'admin', passwordVariable: 'admin123')]) {
+                        sh "curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file $artifactPath $nexusUrl/repository/$nexusRepo/com/example/my-artifact/1.0/my-artifact-1.0.jar"
                 }
             }
         }
