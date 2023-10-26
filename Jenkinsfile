@@ -26,9 +26,7 @@ pipeline {
                 }
             }
         }
-       stage('Publish to Nexus') {
-            
-        }
+     
        
             }
         }
