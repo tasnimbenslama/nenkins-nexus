@@ -27,7 +27,7 @@ pipeline {
             }
         }
       
-        stage("Publish to Nexus Repository Manager") {
+        stage("Publish to Nexus ") {
             steps {
                 script {
                    def nexusArtifactUploader = NexusArtifactUploader.fromNexus3(192.168.1.3:8081,'NEXUS_CRED')
