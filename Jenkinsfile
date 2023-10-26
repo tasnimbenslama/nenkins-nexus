@@ -30,9 +30,9 @@ pipeline {
             steps {
                 script {
                     def nexusUrl = 'http://192.168.1.3:8081' // Remplacez par l'URL de votre Nexus
-                    def nexusRepository = 'java-app' // Remplacez par le nom de votre repository Nexus
+                    def nexusRepository = 'maven-central-repository' // Remplacez par le nom de votre repository Nexus
                     def nexusCredentialId = 'NEXUS_CRED' // Remplacez par l'ID de vos informations d'identification Nexus dans Jenkins
-                    nexusPublisher nexusInstanceId: nexusCredentialId, nexusUrl: nexusUrl, repository: nexusRepository, version: '1.0.SNAPSHOT', groupId: 'com..mycompany.app', artifactId: 'my-app', packaging: 'jar', file: 'target/my-artifact.jar'
+                    nexusPublisher nexusInstanceId: nexusCredentialId, nexusUrl: nexusUrl, repository: nexusRepository, version: '1.0-SNAPSHOT', groupId: 'com..mycompany.app', artifactId: 'my-app', packaging: 'jar', file: 'target/my-artifact.jar'
 
                 }
             }
