@@ -29,10 +29,7 @@ pipeline {
        stage('Publish to Nexus') {
             steps {
                 script {
-                    def nexusUrl = 'http://192.168.1.3:8081' // Remplacez par l'URL de votre Nexus
-                    def nexusRepository = 'maven-central-repository' // Remplacez par le nom de votre repository Nexus
-                    def nexusCredentialId = 'NEXUS_CRED' // Remplacez par l'ID de vos informations d'identification Nexus dans Jenkins
-                    nexusPublisher nexusInstanceId: nexusCredentialId, nexusUrl: nexusUrl, repository: nexusRepository, version: '1.0-SNAPSHOT', groupId: 'com..mycompany.app', artifactId: 'my-app', packaging: 'jar', file: 'target/my-artifact.jar'
+              nexusArtifactUploader nexusInstanceId: env.NEXUS_CREDENTIALS_ID, nexusUrl: env.NEXUS_URL, repository: env.NEXUS_REPOSITORY, version: '1.0.SNAPSHOT', groupId: 'com.mycompany.app', artifactId: 'my-app', packaging: 'jar', file: 'target/my-artifact.jar'
 
                 }
             }
