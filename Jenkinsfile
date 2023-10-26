@@ -27,10 +27,7 @@ pipeline {
             }
         }
        stage('Publish to Nexus') {
-            steps {
-                script {
-                }
-            }
+            
         }
        
             }
