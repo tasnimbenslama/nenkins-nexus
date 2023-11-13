@@ -5,45 +5,46 @@ stage('Grafana') {
                 acceptType: 'APPLICATION_JSON',
                 contentType: 'APPLICATION_JSON',
                 httpMode: 'POST',
-                requestBody: '{"dashboard": "<{
-  "dashboard": {
-    "id": null,
-    "title": "My Jenkins Metrics",
-    "panels": [
-      {
-        "id": 1,
-        "type": "graph",
-        "title": "Build Duration",
-        "targets": [
-          {
-            "expr": "jenkins_build_duration_seconds",
-            "legendFormat": "Build Duration"
-          }
-        ],
-        "yaxes": [
-          {
-            "format": "ms"
-          },
-          {
-            "format": "short"
-          }
-        ],
-        "gridPos": {
-          "x": 0,
-          "y": 0,
-          "w": 12,
-          "h": 6
-        }
-      }
-    ],
-    "time": {
-      "from": "now-6h",
-      "to": "now"
-    }
-  },
-  "overwrite": false
-}
->"}',
+                requestBody: '''
+                    {
+                      "dashboard": {
+                        "id": null,
+                        "title": "My Jenkins Metrics",
+                        "panels": [
+                          {
+                            "id": 1,
+                            "type": "graph",
+                            "title": "Build Duration",
+                            "targets": [
+                              {
+                                "expr": "jenkins_build_duration_seconds",
+                                "legendFormat": "Build Duration"
+                              }
+                            ],
+                            "yaxes": [
+                              {
+                                "format": "ms"
+                              },
+                              {
+                                "format": "short"
+                              }
+                            ],
+                            "gridPos": {
+                              "x": 0,
+                              "y": 0,
+                              "w": 12,
+                              "h": 6
+                            }
+                          }
+                        ],
+                        "time": {
+                          "from": "now-6h",
+                          "to": "now"
+                        }
+                      },
+                      "overwrite": false
+                    }
+                ''',
                 responseHandle: 'NONE',
                 url: 'http://192.168.1.3:3000/api/dashboards/db'
             )
