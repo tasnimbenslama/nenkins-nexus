@@ -1,56 +1,88 @@
-stage('Grafana') {
-    steps {
-        script {
-            def response = httpRequest(
-                acceptType: 'APPLICATION_JSON',
-                contentType: 'APPLICATION_JSON',
-                httpMode: 'POST',
-                requestBody: '''
-                    {
-                      "dashboard": {
-                        "id": null,
-                        "title": "My Jenkins Metrics",
-                        "panels": [
-                          {
-                            "id": 1,
-                            "type": "graph",
-                            "title": "Build Duration",
-                            "targets": [
-                              {
-                                "expr": "jenkins_build_duration_seconds",
-                                "legendFormat": "Build Duration"
-                              }
-                            ],
-                            "yaxes": [
-                              {
-                                "format": "ms"
-                              },
-                              {
-                                "format": "short"
-                              }
-                            ],
-                            "gridPos": {
-                              "x": 0,
-                              "y": 0,
-                              "w": 12,
-                              "h": 6
-                            }
-                          }
-                        ],
-                        "time": {
-                          "from": "now-6h",
-                          "to": "now"
-                        }
-                      },
-                      "overwrite": false
-                    }
-                ''',
-                responseHandle: 'NONE',
-                url: 'http://192.168.1.3:3000/api/dashboards/db'
-            )
+pipeline {
+    agent any
 
-            if (response.getResponseCode() != 200) {
-                error "Failed to create Grafana dashboard: ${response.getResponseCode()}"
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Your build steps go here
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Your test steps go here
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Your deployment steps go here
+            }
+        }
+
+        stage('Grafana') {
+            steps {
+                script {
+                    def grafanaDashboardConfig = '''
+                        {
+                          "dashboard": {
+                            "id": null,
+                            "title": "My Jenkins Metrics",
+                            "panels": [
+                              {
+                                "id": 1,
+                                "type": "graph",
+                                "title": "Build Duration",
+                                "targets": [
+                                  {
+                                    "expr": "jenkins_build_duration_seconds",
+                                    "legendFormat": "Build Duration"
+                                  }
+                                ],
+                                "yaxes": [
+                                  {
+                                    "format": "ms"
+                                  },
+                                  {
+                                    "format": "short"
+                                  }
+                                ],
+                                "gridPos": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "w": 12,
+                                  "h": 6
+                                }
+                              }
+                            ],
+                            "time": {
+                              "from": "now-6h",
+                              "to": "now"
+                            }
+                          },
+                          "overwrite": false
+                        }
+                    '''
+                    
+                    def response = httpRequest(
+                        acceptType: 'APPLICATION_JSON',
+                        contentType: 'APPLICATION_JSON',
+                        httpMode: 'POST',
+                        requestBody: grafanaDashboardConfig,
+                        responseHandle: 'NONE',
+                        url: 'http://192.168.1.3:3000/api/dashboards/db'
+                    )
+
+                    if (response.getResponseCode() != 200) {
+                        error "Failed to create Grafana dashboard: ${response.getResponseCode()}"
+                    }
+                }
             }
         }
     }
