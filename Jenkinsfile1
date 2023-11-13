@@ -10,19 +10,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Your build steps go here
+                // Compilez votre application ici
+                sh 'mvn clean package' // Exemple pour une application Java avec Maven
             }
         }
 
         stage('Test') {
             steps {
-                // Your test steps go here
+                // Exécutez des tests unitaires ou d'intégration ici
+                sh 'mvn test' // Exemple pour les tests unitaires avec Maven
             }
         }
 
         stage('Deploy') {
             steps {
-                // Your deployment steps go here
+                // Déployez votre application sur votre environnement cible (par exemple, serveur de préproduction ou production)
+                sh 'kubectl apply -f deployment.yaml' // Exemple pour un déploiement Kubernetes
             }
         }
 
